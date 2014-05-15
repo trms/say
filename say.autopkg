@@ -1,0 +1,49 @@
+nuget {
+	nuspec {
+		id = say;
+		title: say;
+		version: 1.2.1.0;
+		authors: {coapp, Olivine Labs, Christian Bechette, Tightrope Media Systems};
+		owners: {Olivine Labs};
+
+		licenseUrl: "http://opensource.org/licenses/MIT";
+		projectUrl: "https://github.com/Olivine-Labs/say";
+		copyright: "Copyright (c) 2012 Olivine Labs, LLC.";
+		
+		requireLicenseAcceptance: false;
+		summary: "say is a simple string key/value store for i18n or any other case where you want namespaced strings.";
+		releaseNotes: @"https://github.com/Olivine-Labs/say/issues"; 
+		description: @"say is a simple string key/value store for i18n or any other case where you want namespaced strings.";
+		tags: {native, Lua, module};
+	}
+	dependencies {
+        // This node defines any outside items which may be needed to consume this package.
+        packages : {
+            // This is a list of other NuGet packages required to use this package.
+            // Each item follows the format "<pkg_name>/<version>"
+            lua/"[5.1, 5.4)",
+        };
+    }
+	files {
+		// declare a lua collection
+		lua : {
+			// copies the whole folder tree.
+			
+			#add-all-files : Items.sayDir;
+			// set the destination in the package itself. 
+			#destination : ${build_root}\say;
+		};
+		
+		lua: {"src\*.lua"};
+    }
+
+    targets {
+		AfterBuild {
+			.Copy {
+				DestinationFiles = "@(sayDir->'$(TargetDir)say\%(RecursiveDir)%(Filename)%(Extension)')";
+				SourceFiles = "@(sayDir)";
+				SkipUnchangedFiles = true;
+			};
+		};
+	}
+}
