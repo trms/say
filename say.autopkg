@@ -40,7 +40,7 @@ nuget {
     targets {
 		AfterBuild {
 			.Copy {
-				DestinationFiles = "@(sayDir->'$(TargetDir)say\%(RecursiveDir)%(Filename)%(Extension)')";
+				DestinationFiles = "@(sayDir->'$(TargetDir)lua\say\%(RecursiveDir)%(Filename)%(Extension)')";
 				SourceFiles = "@(sayDir)";
 				SkipUnchangedFiles = true;
 			};
